@@ -1,0 +1,55 @@
+cherrypy server
+
+  google_sheets.py
+    google sheets api authentication
+
+
+  auto: check if spreadsheet has changed
+    if number of rows != number of rows from last session
+      show error message
+
+
+  auto: monthly usage
+    get google sheet as csv. trim to product names.
+    pull list of orders from shipstation
+      shipstation api: "List Orders with parameters"
+        search for each order number in past_orders.json
+          if order number exists
+            skip order
+          if order does not exist
+            push product quantity to its respective product category
+              using sheets api
+
+
+  html: monthly usage
+    list of product names
+      select product
+        manually enter number
+          push value to google sheet
+
+
+  html: total counts
+    start counts
+      display list of product names with totals = 0
+        select a product
+          totals = []
+          product_total = #
+          ajax: calculator opens
+            equation inputs to inline javascript as a string
+              calculation is performed.
+                sum of totals is calculated
+                sum of totals = product_total
+            exit calculator
+          product_total is pushed to list of product names
+          select done
+            sum of totals is calculated
+              sum of totals = product_total
+              push product_total to google sheet
+
+
+  html: incoming stock
+    display list of product names
+      enter total incoming stock
+      enter date
+        push total to warehouse inventory
+        push total and date to incoming stock spreadsheet
