@@ -10,7 +10,7 @@ cherrypy server
 
 
   auto: monthly usage
-    get google sheet as csv. trim to product names.
+    get product names from google sheet via api
     pull list of orders from shipstation
       shipstation api: "List Orders with parameters"
         search for each order number in past_orders.json
@@ -53,3 +53,14 @@ cherrypy server
       enter date
         push total to warehouse inventory
         push total and date to incoming stock spreadsheet
+
+
+when pushing data, sheets api requires data to be in the following format
+{
+  "majorDimension": "ROWS",
+  "values":[
+    [],
+    [],
+    []
+  ]
+}

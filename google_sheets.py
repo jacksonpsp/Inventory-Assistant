@@ -1,20 +1,17 @@
-from __future__ import print_function
-import httplib2
 import os
 
-from apiclient import discovery
 from oauth2client import client
 from oauth2client import tools
 from oauth2client.file import Storage
 
 try:
     import argparse
-    parser = argparse.ArgumentParser(parents=[tools.argparser])
-    flags = parser.parse_args([])
+    _PARSER_ = argparse.ArgumentParser(parents=[tools.argparser])
+    _FLAGS_ = _PARSER_.parse_args([])
 except ImportError:
-    flags = None
+    _FLAGS_ = None
 
-SCOPES = 'https://www.googleapis.com/auth/spreadsheets.readonly'
+SCOPES = 'https://www.googleapis.com/auth/spreadsheets'
 CLIENT_SECRET_FILE = '/Users/jacksonfoster/.credentials/client_secret.json'
 APPLICATION_NAME = 'Inventory Assistant'
 
@@ -25,15 +22,15 @@ def get_credentials():
 
     if not os.path.exists(credential_dir):
         os.makedirs(credential_dir)
-    credential_path = os.path.join(credential_dir,
-                                   'sheets.googleapis.com-python-quickstart.json')
+    credential_path = os.path.join(credential_dir,'inventory-assistant-credentials1.json')
     store = Storage(credential_path)
     credentials = store.get()
 
     if not credentials or credentials.invalid:
+        flow = client.flow_from_clientsecrets(CLIENT_SECRET_FILE, SCOPES)
         flow.user_agent = APPLICATION_NAME
-        if flags:
-            credentials = tools.run_flow(flow, store, flags)
+        if _FLAGS_:
+            credentials = tools.run_flow(flow, store, _FLAGS_)
         else: # Needed only for compatibility with Python 2.6
             credentials = tools.run(flow, store)
     print('Storing credentials to ' + credential_path)
