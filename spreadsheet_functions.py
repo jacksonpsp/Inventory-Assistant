@@ -24,12 +24,12 @@ def formatData(data=[]):
     "majorDimension": "ROWS",
     "values":[]
     }
-
-    for i in range(0, len(data)):
-        formattedData["values"].append([data[i]])
-    return formattedData
-
-
+    if len(data) == 0 or type(data) != list:
+        print "'formatData' requires a list as an argument."
+    else:
+        for i in range(0, len(data)):
+            formattedData["values"].append([data[i]])
+        return formattedData
 
 
 
